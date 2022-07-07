@@ -193,11 +193,11 @@ class EpsilonConstrained(MovingCameraScene):
         self.camera.frame.save_state()
 
         table = r"""
-            Minimize & $f_{\text{obj}}(x)$ \\
+            Minimize & $h_{\text{obj}}(x)$ \\
         """
 
         table2 = r"""
-            Minimize & $f_{\text{obj}}(x)$ \\
+            Minimize & $h_{\text{obj}}(x)$ \\
             Subject to: & \\
             Epsilon constraint & $g(x) = g_0 $ \\
         """
