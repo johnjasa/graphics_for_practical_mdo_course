@@ -37,31 +37,7 @@ def run_interp_opt(method):
     # run the optimization
     prob.run_driver();
 
-run_interp_opt('slinear')
-run_interp_opt('akima')
 
-cr = om.CaseReader('slinear_cases.sql')
-cases = cr.get_cases()
-x_slinear = []
-y_slinear = []
-for case in cases:
-    x_slinear.append(case.outputs['x'])
-    y_slinear.append(case.outputs['y'])
-
-x_slinear = np.array(x_slinear)
-y_slinear = np.array(y_slinear)
-
-
-cr = om.CaseReader('akima_cases.sql')
-cases = cr.get_cases()
-x_akima = []
-y_akima = []
-for case in cases:
-    x_akima.append(case.outputs['x'])
-    y_akima.append(case.outputs['y'])
-
-x_akima = np.array(x_akima)
-y_akima = np.array(y_akima)
 
 
 
@@ -76,7 +52,7 @@ class TitleSlide(Scene):
         self.camera.background_color="#2d3c54"
 
         title = r"Adding curve fits in a differentiable way"
-        contents_list = ["Intro and motivation", "Simple (wrong) approach", "Correct approach", "Further notes and recommendations"]
+        contents_list = ["Using a piecewise linear fit is generally bad", "A smooth and continuous curve fit is advantageous", "Further notes and recommendations"]
         intro_message = "Using a smooth and continuous curve fit for data will help gradient-based optimizers and Newton solvers converge accurately and quickly."
         outro_message = "You must fit a curve to data in a differentiable way if you're using gradient-based optimizers or a Newton solver."
 
@@ -158,6 +134,32 @@ class InterpPlot(MovingCameraScene):
 
         self.play(FadeOut(akima_plot), FadeOut(dot), FadeOut(moving_slope), Restore(self.camera.frame))
 
+        run_interp_opt('slinear')
+        run_interp_opt('akima')
+
+        cr = om.CaseReader('slinear_cases.sql')
+        cases = cr.get_cases()
+        x_slinear = []
+        y_slinear = []
+        for case in cases:
+            x_slinear.append(case.outputs['x'])
+            y_slinear.append(case.outputs['y'])
+
+        x_slinear = np.array(x_slinear)
+        y_slinear = np.array(y_slinear)
+
+
+        cr = om.CaseReader('akima_cases.sql')
+        cases = cr.get_cases()
+        x_akima = []
+        y_akima = []
+        for case in cases:
+            x_akima.append(case.outputs['x'])
+            y_akima.append(case.outputs['y'])
+
+        x_akima = np.array(x_akima)
+        y_akima = np.array(y_akima)
+
         x_point.set_value(4.0)
 
         moving_slope, dot = draw_tangent_line_on_curve(linear_plot, x_point)
@@ -170,7 +172,7 @@ class InterpPlot(MovingCameraScene):
                 x = 9.99
             if idx > 10:
                 self.remove(five_x)
-                five_x = Text(f'Iteration {idx} (5x speed)', font_size=24).move_to(ax.c2p(2., 6.))
+                five_x = Tex(f'Iteration {idx} (5x speed)', font_size=36).move_to(ax.c2p(2., 6.))
                 self.add(five_x)
                 self.play(x_point.animate.set_value(x), run_time=.1, rate_func=linear)
             else:
@@ -178,7 +180,7 @@ class InterpPlot(MovingCameraScene):
                     self.remove(five_x)
                 except:
                     pass
-                five_x = Text(f'Iteration {idx}', font_size=24).move_to(ax.c2p(2., 6.))
+                five_x = Tex(f'Iteration {idx}', font_size=36).move_to(ax.c2p(2., 6.))
                 self.add(five_x)
                 self.play(x_point.animate.set_value(x), run_time=.5, rate_func=linear)
 
@@ -197,7 +199,7 @@ class InterpPlot(MovingCameraScene):
                 self.remove(five_x)
             except:
                 pass
-            five_x = Text(f'Iteration {idx}', font_size=24).move_to(ax.c2p(2., 6.))
+            five_x = Tex(f'Iteration {idx}', font_size=36).move_to(ax.c2p(2., 6.))
             self.add(five_x)
             self.play(x_point.animate.set_value(x), run_time=.5, rate_func=linear)
         self.wait()
@@ -218,6 +220,38 @@ class XDSM_comparison(MovingCameraScene):
         image2 = SVGMobject("overall_XDSM.svg")
         image2.height = 7.5
         self.play(Transform(image, image2))
+        self.wait()
+
+        self.play(
+            *[FadeOut(mob)for mob in self.mobjects]
+        )
+
+
+class ShowLaurensPicture(MovingCameraScene):
+    def construct(self):
+        self.camera.background_color="#2d3c54"
+
+        image = ImageMobject("engine_data.png")
+        image.height = 3.2
+        image_caption = Tex(r"Figure courtesy Laurens Voet, MIT", font_size=30).shift(2*DOWN)
+        
+
+        self.play(FadeIn(image), FadeIn(image_caption))
+        self.wait()
+
+        rect = Rectangle(width=4.3, height=3.5).set_color(RED).move_to([-4.5, 0, 0])
+        self.play(FadeIn(rect))
+        self.wait()
+
+        rect.generate_target()
+        rect.target.move_to([-0.1, 0, 0])
+        self.play(MoveToTarget(rect))
+
+        self.wait()
+
+        rect.target.move_to([4.2, 0, 0])
+        self.play(MoveToTarget(rect))
+
         self.wait()
 
         self.play(
