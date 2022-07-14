@@ -246,34 +246,50 @@ def add_all(scene):
         *[FadeIn(mob)for mob in scene.mobjects]
     )
 
-def make_xdsm(scene):
+def get_xdsm_indices(scene, filename):
+    image = SVGMobject(filename, unpack_groups=False)
+    if image.width / image.height > (16./9.):
+        image.scale_to_fit_width(12.5)
+    else:
+        image.scale_to_fit_height(7.)
+    scene.add(image)
 
-    # Change `use_sfmath` to False to use computer modern
-    x = XDSM(use_sfmath=True)
+    for idx, submobject in enumerate(image.submobjects):
+        top = submobject.get_top()
+        scene.add(Text(f"{idx}", color=RED).move_to(top).scale(0.3))
 
-    x.add_system("opt", OPT, r"\text{Optimizer}")
-    x.add_system("solver", SOLVER, r"\text{Newton}")
-    x.add_system("D1", FUNC, "D_1")
-    x.add_system("D2", FUNC, "D_2")
-    x.add_system("F", FUNC, "F")
-    x.add_system("G", FUNC, "G")
+def load_xdsm(filename, scale=1.):
+    image = SVGMobject(filename, unpack_groups=False)
+    if image.width / image.height > (16./9.):
+        image.scale_to_fit_width(12.5)
+    else:
+        image.scale_to_fit_height(7.)
+    image.scale(scale)
 
-    x.connect("opt", "D1", "x, z")
-    x.connect("opt", "D2", "z")
-    x.connect("opt", "F", "x, z")
-    x.connect("solver", "D1", "y_2")
-    x.connect("solver", "D2", "y_1")
-    x.connect("D1", "solver", r"\mathcal{R}(y_1)")
-    x.connect("solver", "F", "y_1, y_2")
-    x.connect("D2", "solver", r"\mathcal{R}(y_2)")
-    x.connect("solver", "G", "y_1, y_2")
+    tol = 1.e-2
+    for idx, submobject in enumerate(image.submobjects):
+        if submobject.width < tol or submobject.height < tol:
+            submobject.set_style(stroke_width=12)
 
-    x.connect("F", "opt", "f")
-    x.connect("G", "opt", "g")
+    return image
 
-    x.add_output("opt", "x^*, z^*", side=LEFT)
-    x.add_output("D1", "y_1^*", side=LEFT)
-    x.add_output("D2", "y_2^*", side=LEFT)
-    x.add_output("F", "f^*", side=LEFT)
-    x.add_output("G", "g^*", side=LEFT)
-    x.write("mdf")
+
+def highlight_xdsm(scene, image, list_to_highlight):
+    scene.wait()
+    for data_tuple in list_to_highlight:
+        type_of_animation = data_tuple[0]
+        indices = data_tuple[1]
+        
+        small_group = VGroup()
+        for idx in indices:
+            small_group.add(image.submobjects[idx])
+
+        anims = []
+        for obj in small_group:
+            if 'ind' in type_of_animation:
+                anims.append(Indicate(obj, color=WHITE))
+            elif 'pass' in type_of_animation:
+                anims.append(ShowPassingFlash(obj.copy().set_color(RED), time_width=0.5))
+        scene.play(AnimationGroup(*anims))
+
+    scene.wait()
