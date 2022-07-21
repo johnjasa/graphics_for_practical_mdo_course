@@ -10,7 +10,7 @@ import subprocess
 
 debug = False
 
-class XDSM_comparison(MovingCameraScene):
+class NLBGS(MovingCameraScene):
     def setup(self):
         self.camera.background_color="#2d3c54"
 

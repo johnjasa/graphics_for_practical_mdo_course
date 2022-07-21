@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 import openmdao.api as om
-from pyxdsm.XDSM import XDSM, OPT, SOLVER, FUNC, LEFT
 
 
 def lagged_write(scene, text_list, delay=1, beginning_text="", final_text="", fresh_between=False):
@@ -95,8 +94,9 @@ def make_venn(scene, types=['opt', 'mda', 'diff'], show_center_words=False):
         if "diff" not in types:
             list_to_fade_out.extend([diff, diff_text])
 
-        scene.play(FadeOut(*list_to_fade_out))
-        scene.wait(2)
+        if len(list_to_fade_out) > 0:
+            scene.play(FadeOut(*list_to_fade_out))
+            scene.wait(2)
 
     scene.play(
         *[FadeOut(mob)for mob in scene.mobjects]
@@ -122,7 +122,7 @@ def make_title_slide(scene, title, contents_list, intro_message, outro_message, 
     blist = BulletedList(*contents_list)
 
     scene.play(FadeIn(blist), FadeIn(main_title))
-    scene.wait()
+    scene.wait(2)
     scene.play(FadeOut(blist), FadeOut(main_title))
 
     for idx, item in enumerate(blist):
@@ -130,7 +130,7 @@ def make_title_slide(scene, title, contents_list, intro_message, outro_message, 
         blist.update()
 
         scene.play(FadeIn(blist), FadeIn(title_short))
-        scene.wait(0.5)
+        scene.wait(2)
         scene.play(FadeOut(blist), FadeOut(title_short))
 
     real_main_message = "\\raggedright{Main takeaway \\newline \\\\ {\large " + outro_message + "}}"
@@ -246,24 +246,30 @@ def add_all(scene):
         *[FadeIn(mob)for mob in scene.mobjects]
     )
 
-def get_xdsm_indices(scene, filename):
+def get_xdsm_indices(scene, filename, filter_small_lines=True):
     image = SVGMobject(filename, unpack_groups=False)
     if image.width / image.height > (16./9.):
-        image.scale_to_fit_width(12.5)
+        image.scale_to_fit_width(13.5)
     else:
-        image.scale_to_fit_height(7.)
+        image.scale_to_fit_height(7.6)
     scene.add(image)
+    
+    if filter_small_lines:
+        tol = 1.e-2
+        for idx, submobject in enumerate(image.submobjects):
+            if submobject.width < tol or submobject.height < tol:
+                submobject.set_style(stroke_width=12)
 
     for idx, submobject in enumerate(image.submobjects):
         top = submobject.get_top()
-        scene.add(Text(f"{idx}", color=RED).move_to(top).scale(0.3))
+        scene.add(Text(f"{idx}", color=RED).move_to(top).scale(0.2))
 
 def load_xdsm(filename, scale=1.):
-    image = SVGMobject(filename, unpack_groups=False)
+    image = SVGMobject(filename, unpack_groups=False, stroke_width=3)
     if image.width / image.height > (16./9.):
-        image.scale_to_fit_width(12.5)
+        image.scale_to_fit_width(13.5)
     else:
-        image.scale_to_fit_height(7.)
+        image.scale_to_fit_height(7.6)
     image.scale(scale)
 
     tol = 1.e-2
@@ -274,8 +280,10 @@ def load_xdsm(filename, scale=1.):
     return image
 
 
-def highlight_xdsm(scene, image, list_to_highlight):
-    scene.wait()
+def highlight_xdsm(scene, image, list_to_highlight, wait=True):
+    if wait:
+        scene.wait()
+
     for data_tuple in list_to_highlight:
         type_of_animation = data_tuple[0]
         indices = data_tuple[1]
@@ -292,4 +300,5 @@ def highlight_xdsm(scene, image, list_to_highlight):
                 anims.append(ShowPassingFlash(obj.copy().set_color(RED), time_width=0.5))
         scene.play(AnimationGroup(*anims))
 
-    scene.wait()
+    if wait:
+        scene.wait()
