@@ -25,7 +25,7 @@ class TrioVenn(MovingCameraScene):
         make_venn(self, types=["opt"])
 
 
-class TitleSlide(Scene):
+class TitleSlide(MovingCameraScene):
     def construct(self):
         self.camera.background_color="#2d3c54"
 
@@ -71,10 +71,8 @@ class Multiobjective(MovingCameraScene):
         image = ImageMobject("737.jpg")
         image.height = 4
         image.shift(UP)
-        image_caption = Tex(r"© Aero Icarus, 2011", font_size=12)
-        # image_caption.shift(UP)
 
-        self.play(FadeIn(image), FadeIn(image_caption))
+        self.play(FadeIn(image))
 
         self.wait()
 

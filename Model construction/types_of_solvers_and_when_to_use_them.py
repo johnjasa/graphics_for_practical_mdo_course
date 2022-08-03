@@ -1,213 +1,169 @@
 from manim import *
 import numpy as np
 from manim_helper_functions import *
-import openmdao.api as om
-from pyxdsm.XDSM import XDSM, OPT, SOLVER, FUNC, LEFT
-import subprocess
 
 
+class TitleSlide(MovingCameraScene):
+    def construct(self):
+        self.camera.background_color="#2d3c54"
 
+        title = r"Types of solvers and when to use them"
+        contents_list = [
+            "Brief introduction to solver types",
+            "Solvers within OpenMDAO",
+            ]
+        intro_message = "For nonlinear and linear systems there are various solvers that can converge your system. The best solver to use is highly problem dependent but the goal of this lecture is to be able to recognize a reasonable staring configuration for your systems."
+        outro_message = "Solvers are needed to resolve coupling or compute gradient information for multidisciplinary systems. The best solver setup is highly problem dependent."
+
+        make_title_slide(self, title, contents_list, intro_message, outro_message, venn_types=["mda"])
+
+
+class ShowSolverConvergence(MovingCameraScene):
+    def setup(self):
+        self.camera.background_color="#2d3c54"
+        self.camera.frame.save_state()
+
+        # Show graphical convergence for NLBGS
+        nlbgs = [50.5247285,
+            3.91711889,
+            0.0758730639,
+            0.00150052731,
+            2.96633139e-5,
+            5.86406806e-7,
+            1.15925306e-8,
+            2.29166181e-10,
+        ]
+
+        # Aitken
+        nlbgs_aitken = [50.5247285,
+            3.91711889,
+            0.0744313595,
+            2.9722743e-5,
+            1.16801147e-8,
+            2.21703753e-10,
+        ]
+        
+        # Show graphical convergence for Newton
+        newton = [2.25451411,
+            5.8309261e-05,
+            0.000862032337,
+            1.6727336e-05,
+            1.27465221e-08,
+            6.78410217e-09,
+            1.2648016e-10,
+        ]
+
+        # Newton with LS
+        newton_ls = [12.25451411,
+            5.8309261e-05,
+            1.02607101e-06,
+            2.025957e-08,
+            4.00021349e-10,
+        ]
+
+        newton_no_solve_subsystems = [
+            36.8229305,
+            12.2837727,
+            6.0606187,
+            2.14967189,
+            0.227624537,
+            0.0642920936,
+            0.00611849532,
+            0.0015263487,
+            0.00018041202,
+            3.73164117e-05,
+            5.04139962e-06,
+            9.37031206e-07,
+            1.36709744e-07,
+            2.3929104e-08,
+            3.64867603e-09,
+            6.17305318e-10,
+        ]
+        # create the axes and the curve
+        ax = Axes(
+            x_range=[0.0001, 15.0001, 1],
+            y_range=[-12, 2, 2],
+            tips=False,
+            axis_config={"include_numbers": True, "exclude_origin_tick": False},
+            y_axis_config={"scaling": LogBase(custom_labels=True)},
+        )
+        labels = ax.get_axis_labels(x_label=r"\text{Solver iteration}", y_label="R(x)")
+        self.play(Create(ax), Create(labels))
+        self.wait()
+        line = DashedLine(ax.c2p(0., 1.e-9), ax.c2p(15., 1.e-9))
+        tol_label = Tex("Tolerance", font_size=30).move_to(line.get_corner(UR)).shift(-4, -0.2, 0)
+        self.play(Create(line), Create(tol_label))
+        self.wait()
+        
+        solvers = [nlbgs, nlbgs_aitken, newton_no_solve_subsystems, newton, newton_ls]
+        solver_labels = ['NLBGS', 'NLBGS w/ Aitken', 'Newton w/o solve\_subsystems', 'Newton', 'Newton w/ LS']
+        colors = [ORANGE, BLUE, RED, GREEN, PURPLE]
+        coords = [
+            [5., 1.e-4, 0],
+            [5., 2.e-11, 0],
+            [11., 1.e-3, 0],
+            [1.5, 5.e-3, 0],
+            [1.6, 4.e-9, 0],
+        ]
+
+        for idx, solver in enumerate(solvers):
+            x_data = np.arange(len(solver))
+            plot = ax.plot_line_graph(x_data, solver, line_color=colors[idx], vertex_dot_style=dict(fill_color=colors[idx]))
+            label = Tex(solver_labels[idx], color=colors[idx], font_size=36)
+            label.move_to(np.array(ax.c2p(*coords[idx])))
+
+            self.play(Write(plot), Write(label), run_time=2)
+            self.wait()
 
 debug = False
 
-class NLBGS(MovingCameraScene):
+class SolverTypes(MovingCameraScene):
     def setup(self):
         self.camera.background_color="#2d3c54"
-
-        self.filename = "nlbgs"
-
-        # Change `use_sfmath` to False to use computer modern
-        x = XDSM(use_sfmath=True)
-
-        x.add_system("opt", OPT, r"\text{Optimizer}")
-        x.add_system("solver", SOLVER, r"\text{NLBGS}")
-        x.add_system("D1", FUNC, "D_1")
-        x.add_system("D2", FUNC, "D_2")
-        x.add_system("Funcs", FUNC, "Funcs")
-
-        x.connect("opt", "D1", "x, z")
-        x.connect("opt", "D2", "z")
-        x.connect("opt", "Funcs", "x, z")
-        x.connect("solver", "D1", "y_2")
-        x.connect("D1", "D2", "y_1")
-        x.connect("D1", "solver", "y_1")
-        x.connect("D2", "solver", "y_2")
-        x.connect("solver", "Funcs", "y_1, y_2")
-
-        x.connect("Funcs", "opt", "f, g")
-
-        x.add_output("opt", "x^*, z^*", side=LEFT)
-        x.add_output("D1", "y_1^*", side=LEFT)
-        x.add_output("D2", "y_2^*", side=LEFT)
-        x.add_output("Funcs", "f^*, g^*", side=LEFT)
-        x.write(self.filename)
-        subprocess.run(["pdf2svg", f"{self.filename}.pdf", f"{self.filename}.svg"])
+        self.filename = "solver_types"
 
     if debug:
         def construct(self):
-            get_xdsm_indices(self, f"{self.filename}.svg")
+            get_xdsm_indices(self, f"{self.filename}.svg", filter_small_lines=False)
     else:
         def construct(self):
+            image = load_xdsm(f"{self.filename}.svg", filter_small_lines=False)
+            caption = Tex("Fig. 3.13 from Engineering Design Optimization by Martins and Ning").scale(0.8).move_to((0, -3.5, 0))
 
-            image = load_xdsm(f"{self.filename}.svg")
+            self.play(FadeIn(caption))
 
-            self.play(Create(image))
+            def add_elements(indices):
+                group = VGroup()
+                for idx in indices:
+                    subm = image.submobjects[idx]
 
-            # TODO: need to fix this XDSM to actually be NLBGS
-            list_to_highlight = [
-                ('ind', [28, 29]),
-                ('pass', [0]),
-                # ('ind', [30, 31, 32, 33, 42, 43, 44]),
-                ('pass', [13, 16]),
+                    # Hack to make boxes go over gray lines
+                    tol = 1.e-2
+                    if subm.width > tol and subm.height > tol:
+                        subm.set_z_index(1)
+                    group.add(subm)
 
-                # begin loop
-                ('ind', [58, 59, 60]),
-                ('pass', [4]),
-                # ('ind', [61, 62, 63]),
-                ('pass', [17]),
-                ('ind', [71, 72, 73]),
-                ('pass', [6]),
-                # ('ind', [68, 69, 70, 55, 56, 57]),
-                ('pass', [18, 19]),
-                ('ind', [40, 41]),
-                ('pass', [3]),
-                # ('ind', [42, 43, 44]),
-                ('pass', [13, 16]),
+                anims = []
+                for obj in group:
+                    anims.append(Write(obj))
+                self.play(AnimationGroup(*anims))
+                self.wait()
 
-                ('ind', [58, 59, 60]),
-                ('pass', [4]),
-                # ('ind', [61, 62, 63]),
-                ('pass', [17]),
-                ('ind', [71, 72, 73]),
-                ('pass', [6]),
-                # ('ind', [68, 69, 70, 55, 56, 57]),
-                ('pass', [18, 19]),
-                ('ind', [40, 41]),
-                ('pass', [3]),
-                # ('ind', [42, 43, 44]),
-                ('pass', [13, 16]),
+            add_elements([0, 1, 2, 3, 4]) # Solver
+            add_elements([7, 5, 6, 65, 66, 67, 68]) # linear and nonlinear
+            add_elements([10, 8, 9]) # direct
+            add_elements([11, 12, 18, 19, 20, 21, 26, 13, 14, 15, 16, 17, 31, 27, 28, 29, 30, 25, 22, 23, 24]) # LU, QR, Cholesky
+            add_elements([32, 36, 33, 34, 35]) # Iterative
+            add_elements([37, 42, 38, 39, 40, 41]) # Fixed point
+            add_elements([45, 43, 44, 45, 46, 47, 48, 49, 50, 51]) # Jacobi, GS, SOR
+            add_elements([58, 52, 53, 54, 55, 56, 57, 61, 64, 59, 60, 62, 63]) # CG, GMRES
 
-                ('ind', [58, 59, 60]),
-                ('pass', [4]),
-                # ('ind', [61, 62, 63]),
-                ('pass', [17]),
-                ('ind', [71, 72, 73]),
-                ('pass', [6]),
-                # ('ind', [68, 69, 70, 55, 56, 57]),
-                ('pass', [18, 19]),
-                ('ind', [40, 41]),
-                # ('pass', [3]),
-                # ('ind', [42, 43, 44]),
-                ('pass', [7]),
+            self.wait()
 
-                # functionals
-                # ('ind', [36, 37, 38, 39, 45, 46, 47, 48, 49, 50]),
-                ('pass', [15, 20]),
-                # ('ind', [84, 85, 86]),
-                ('pass', [8]),
-                # ('ind', [80, 81, 82, 83]),
-                ('pass', [21]),
+            add_elements([69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 94, 95]) # Newton
+            add_elements([80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90])
+            add_elements([91, 92, 93])
+            
 
-                ('ind', [28, 29]),
-                ('pass', [9, 10, 11, 12]),
-
-                ('ind', [22, 23, 24, 25, 26, 27, 51, 52, 53, 54, 64, 65, 66, 67, 74, 75, 76, 77, 78, 79]),
-            ]
-
-            highlight_xdsm(self, image, list_to_highlight)
-
-
-# class TitleSlide(MovingCameraScene):
-#     def construct(self):
-#         self.camera.background_color="#2d3c54"
-
-#         title = r"Basic optimization problem formulation"
-#         contents_list = [
-#             "Objective function",
-#             "Design variables",
-#             "Constraints",
-#             "Example 2D optimization",
-#             ]
-#         intro_message = "One of the most important steps in optimization is formulating well-posed and meaningful problems that you can interpret accurately."
-#         outro_message = "Formulating a well-posed and reasonable optimization problem is important. You should start with the most simple optimization problem possible and build up complexity slowly, solving each problem along the way."
-
-#         make_title_slide(self, title, contents_list, intro_message, outro_message)
-
-
-# class BasicOptFormulation(Scene):
-#     def construct(self):
-#         self.camera.background_color="#2d3c54"
-#         myTemplate = TexTemplate()
-#         myTemplate.add_to_preamble(r"\usepackage{physics}")
-#         text_list = []
-
-#         # Objective discussion
-#         text_list.append(r"""
-#             Minimize & $f_{\text{obj}}(x)$ \\
-#         """)
-#         text_list.append(r"""
-#             Minimize & $f_{\text{cost}}(x)$ \\
-#         """)
-#         text_list.append(r"""
-#             Maximize & $f_{\text{performance}}(x)$ \\
-#         """)
-#         text_list.append(r"""
-#             Minimize & $-f_{\text{performance}}(x)$ \\
-#         """)
-#         text_list.append(r"""
-#             Minimize & $f_{\text{obj}}(x) = g(x) + h(x)$ \\
-#         """)
-#         text_list.append(r"""
-#             Minimize & $f_{\text{obj}}(x)$ \\
-#         """)
-
-#         # Design variables
-#         text_list.append(r"""
-#             Minimize & $f_{\text{obj}}(x)$ \\ \\
-#             With respect to: & \\
-#             Design variables & $x$ \\
-#         """)
-#         text_list.append(r"""
-#             Minimize & $f_{\text{obj}}(\vb*{\va{x}})$ \\ \\
-#             With respect to: & \\
-#             Design variables & $\vb*{\va{x}}$ \\
-#         """)
-#         text_list.append(r"""
-#             Minimize & $f_{\text{Aircraft weight}}(\vb*{\va{x}})$ \\ \\
-#             With respect to: & \\
-#             Design variables & $\vb*{\va{x}}_{\text{Wing structure thickness}}$ \\
-#                              & $\vb*{\va{x}}_{\text{Wing aerodynamic shape}}$ \\
-#         """)
-
-#         # Constraints
-#         text_list.append(r"""
-#             Minimize & $f_{\text{obj}}(\vb*{\va{x}})$ \\ \\
-#             With respect to: & \\
-#             Design variables & $\vb*{\va{x}}$ \\ \\
-#             Subject to: & \\
-#             Constraints & $g_{\text{lb}} \leq g(\vb*{\va{x}}) \leq g_{\text{ub}} $ \\
-#         """)
-
-#         text_list.append(r"""
-#             Minimize & $f_{\text{obj}}(\vb*{\va{x}})$ \\ \\
-#             With respect to: & \\
-#             Design variables & $\vb*{\va{x}}$ \\ \\
-#             Subject to: & \\
-#             Constraints & $g_{\text{lb}} \leq g(\vb*{\va{x}}) \leq g_{\text{ub}} $ \\
-#                         & $h(\vb*{\va{x}}) = h_{\text{eq}} $ \\
-#         """)
-
-#         beg_lines = r"""
-#             \begin{table}[]
-#             \def\arraystretch{1.0}
-#             \centering
-#             \begin{tabular}{rl}"""
-
-#         lagged_write(self, text_list, beginning_text=beg_lines, final_text=r"""
-#             \end{tabular}
-#             \end{table}""")
-
-
-#         self.wait()
-
-#         self.play(*[FadeOut(mob)for mob in self.mobjects])
+            
+            

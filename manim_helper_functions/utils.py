@@ -264,7 +264,7 @@ def get_xdsm_indices(scene, filename, filter_small_lines=True):
         top = submobject.get_top()
         scene.add(Text(f"{idx}", color=RED).move_to(top).scale(0.2))
 
-def load_xdsm(filename, scale=1.):
+def load_xdsm(filename, scale=1., filter_small_lines=True):
     image = SVGMobject(filename, unpack_groups=False, stroke_width=3)
     if image.width / image.height > (16./9.):
         image.scale_to_fit_width(13.5)
@@ -272,10 +272,11 @@ def load_xdsm(filename, scale=1.):
         image.scale_to_fit_height(7.6)
     image.scale(scale)
 
-    tol = 1.e-2
-    for idx, submobject in enumerate(image.submobjects):
-        if submobject.width < tol or submobject.height < tol:
-            submobject.set_style(stroke_width=12)
+    if filter_small_lines:
+        tol = 1.e-2
+        for idx, submobject in enumerate(image.submobjects):
+            if submobject.width < tol or submobject.height < tol:
+                submobject.set_style(stroke_width=12)
 
     return image
 
