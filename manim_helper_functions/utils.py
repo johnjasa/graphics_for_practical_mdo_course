@@ -22,8 +22,8 @@ def lagged_write(scene, text_list, delay=1, beginning_text="", final_text="", fr
 
         scene.wait(delay)
 
-def write_caption(scene, message, delay=1):
-    caption = Tex("\\raggedright{" + message + "}").scale(0.8)
+def write_caption(scene, message, delay=1, scale=0.8):
+    caption = Tex("\\raggedright{" + message + "}").scale(scale)
     scene.play(Create(caption))
     scene.wait(delay)
     scene.play(FadeOut(caption))
