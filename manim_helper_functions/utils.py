@@ -132,6 +132,7 @@ def make_title_slide(scene, title, contents_list, intro_message, outro_message, 
         scene.play(FadeIn(blist), FadeIn(title_short))
         scene.wait(2)
         scene.play(FadeOut(blist), FadeOut(title_short))
+        scene.wait(2)
 
     real_main_message = "\\raggedright{Main takeaway \\newline \\\\ {\large " + outro_message + "}}"
     message_title = Tex(real_main_message).scale(0.8)
