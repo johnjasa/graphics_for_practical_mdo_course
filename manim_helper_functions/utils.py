@@ -22,9 +22,9 @@ def lagged_write(scene, text_list, delay=1, beginning_text="", final_text="", fr
 
         scene.wait(delay)
 
-def write_caption(scene, message, delay=1, scale=0.8):
+def write_caption(scene, message, delay=1, scale=0.8, run_time=1):
     caption = Tex("\\raggedright{" + message + "}").scale(scale)
-    scene.play(Create(caption))
+    scene.play(Create(caption, run_time=run_time))
     scene.wait(delay)
     scene.play(FadeOut(caption))
 
@@ -299,7 +299,12 @@ def highlight_xdsm(scene, image, list_to_highlight, wait=True):
             if 'ind' in type_of_animation:
                 anims.append(Indicate(obj, color=WHITE))
             elif 'pass' in type_of_animation:
-                anims.append(ShowPassingFlash(obj.copy().set_color(RED), time_width=0.5))
+                if 'rev' in type_of_animation:
+                    new_obj = obj.copy()
+                    new_obj.points = new_obj.points[::-1]
+                    anims.append(ShowPassingFlash(new_obj.set_color(RED), time_width=0.5))
+                else:
+                    anims.append(ShowPassingFlash(obj.copy().set_color(RED), time_width=0.5))
         scene.play(AnimationGroup(*anims))
 
     if wait:

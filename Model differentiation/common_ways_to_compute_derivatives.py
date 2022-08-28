@@ -148,7 +148,7 @@ from manim_helper_functions import *
 #         self.camera.background_color="#2d3c54"
 #         self.camera.frame.save_state()
 
-#         cs = MathTex(r"\frac{\partial f}{\partial x} = \frac{f(x+ ih) - f(x)}{ih}")
+#         cs = MathTex(r"\frac{\partial f}{\partial x} = \frac{\text{Im}(f(x + ih))}{ih}")
 #         self.play(Write(cs))
 #         self.wait()
 
@@ -166,28 +166,29 @@ from manim_helper_functions import *
 #         self.play(FadeOut(image, caption))
 
 
-# class CSAdvantages(MovingCameraScene):
-#     def construct(self):
-#         self.camera.background_color="#2d3c54"
-#         self.camera.frame.save_state()
+class CSAdvantages(MovingCameraScene):
+    def construct(self):
+        self.camera.background_color="#2d3c54"
+        self.camera.frame.save_state()
 
-#         text1 = Tex(r"""\raggedright{
-#             \textbf{Advantages of CS:}\\
-#             Accurate\\
-#         }""")
-#         text2 = Tex(r"""\raggedright{
-#             \textbf{Disadvantages:}\\
-#             Computationally expensive\\
-#             Requires source-code modification\\
-#         }""")
+        text1 = Tex(r"""\raggedright{
+            \textbf{Advantages of CS:}\\
+            As accurate as your model\\
+        }""")
+        text2 = Tex(r"""\raggedright{
+            \textbf{Disadvantages:}\\
+            Computationally expensive\\
+            Requires source-code modification\\
+            Model must be complex-safe\\
+        }""")
 
-#         self.play(Write(text1.shift(2*UP)))
-#         self.wait()
+        self.play(Write(text1.shift(2*UP)))
+        self.wait()
 
-#         self.play(Write(text2.align_to(text1, LEFT).shift(DOWN)))
-#         self.wait()
+        self.play(Write(text2.align_to(text1, LEFT).shift(DOWN)))
+        self.wait()
 
-#         clear(self)
+        clear(self)
 
 
 # class AnalyticDerivs(MovingCameraScene):
@@ -260,7 +261,7 @@ class ADAdvantages(MovingCameraScene):
         text2 = Tex(r"""\raggedright{
             \textbf{Disadvantages:}\\
             Requires some code reworking\\
-            Might be computationally intensive\\
+            Might be computationally intensive or inefficient\\
         }""")
 
         self.play(Write(text1.shift(2*UP).shift(LEFT)))
@@ -272,32 +273,32 @@ class ADAdvantages(MovingCameraScene):
         clear(self)
 
 
-class ADBasics(MovingCameraScene):
-    def construct(self):
-        self.camera.background_color="#2d3c54"
-        self.camera.frame.save_state()
+# class ADBasics(MovingCameraScene):
+#     def construct(self):
+#         self.camera.background_color="#2d3c54"
+#         self.camera.frame.save_state()
 
-        v_text = r"""v_i=v_i(v_1, v_2, ..., v_{i-1})"""
-        caption = Tex("Fig. 6.13-14 from Engineering Design Optimization by Martins and Ning").scale(0.8).move_to((0, -3.5, 0))
-        image0 = SVGMobject("ad_variables", unpack_groups=False, stroke_width=3)
-        image0.scale(2.5).shift(4*RIGHT)
-        self.play(Write(MathTex(v_text).shift(3*UP).shift(2*LEFT)), Write(image0), Write(caption))
-        self.wait()
+#         v_text = r"""v_i=v_i(v_1, v_2, ..., v_{i-1})"""
+#         caption = Tex("Fig. 6.13-14 from Engineering Design Optimization by Martins and Ning").scale(0.8).move_to((0, -3.5, 0))
+#         image0 = SVGMobject("ad_variables", unpack_groups=False, stroke_width=3)
+#         image0.scale(2.5).shift(4*RIGHT)
+#         self.play(Write(MathTex(v_text).shift(3*UP).shift(2*LEFT)), Write(image0), Write(caption))
+#         self.wait()
 
-        image = SVGMobject("unrolled_AD_loop", unpack_groups=False, stroke_width=3)
-        image.scale(2.).shift(2*LEFT)
-        self.play(Write(image))
-        self.wait()
-        self.play(FadeOut(image))
+#         image = SVGMobject("unrolled_AD_loop", unpack_groups=False, stroke_width=3)
+#         image.scale(2.).shift(2*LEFT)
+#         self.play(Write(image))
+#         self.wait()
+#         self.play(FadeOut(image))
 
-        text = r"""
-            \begin{aligned}
-            \dot{v}_{1} &=1 \\
-            \dot{v}_{2} &=\frac{\partial v_{2}}{\partial v_{1}} \dot{v}_{1} \\
-            \dot{v}_{3} &=\frac{\partial v_{3}}{\partial v_{1}} \dot{v}_{1}+\frac{\partial v_{3}}{\partial v_{2}} \dot{v}_{2} \\
-            \dot{v}_{4} &=\frac{\partial v_{4}}{\partial v_{1}} \dot{v}_{1}+\frac{\partial v_{4}}{\partial v_{2}} \dot{v}_{2}+\frac{\partial v_{4}}{\partial v_{3}} \dot{v}_{3} \equiv \frac{\mathrm{d} f}{\mathrm{~d} x}
-            \end{aligned}"""
-        self.play(Write(MathTex(text).shift(2*LEFT)))
-        self.wait()
+#         text = r"""
+#             \begin{aligned}
+#             \dot{v}_{1} &=1 \\
+#             \dot{v}_{2} &=\frac{\partial v_{2}}{\partial v_{1}} \dot{v}_{1} \\
+#             \dot{v}_{3} &=\frac{\partial v_{3}}{\partial v_{1}} \dot{v}_{1}+\frac{\partial v_{3}}{\partial v_{2}} \dot{v}_{2} \\
+#             \dot{v}_{4} &=\frac{\partial v_{4}}{\partial v_{1}} \dot{v}_{1}+\frac{\partial v_{4}}{\partial v_{2}} \dot{v}_{2}+\frac{\partial v_{4}}{\partial v_{3}} \dot{v}_{3} \equiv \frac{\mathrm{d} f}{\mathrm{~d} x}
+#             \end{aligned}"""
+#         self.play(Write(MathTex(text).shift(2*LEFT)))
+#         self.wait()
 
-        clear(self)
+#         clear(self)
