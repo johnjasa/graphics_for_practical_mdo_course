@@ -6,83 +6,83 @@ from pyxdsm.XDSM import XDSM, OPT, SOLVER, FUNC, LEFT
 import subprocess
 
 
-class TitleSlide(MovingCameraScene):
-    def construct(self):
-        self.camera.background_color="#2d3c54"
+# class TitleSlide(MovingCameraScene):
+#     def construct(self):
+#         self.camera.background_color="#2d3c54"
 
-        title = r"What solver convergence looks like"
-        contents_list = [
-            "The basic idea of convergence",
-            "How to tell when a system is converged",
-            "Convergence in the terminal",
-            ]
-        intro_message = "A system is converged when the residuals are close to 0 within a tolerance. How this is achieved depends on what solver you use, but generally you want your residuals to decrease as computationally quickly as possible."
-        outro_message = 'Converging a system means that all coupling and implicit interactions have been resolved. The best solver settings and what "good" solver convergence means are highly problem dependent.'
+#         title = r"What solver convergence looks like"
+#         contents_list = [
+#             "The basic idea of convergence",
+#             "How to tell when a system is converged",
+#             "Convergence in the terminal",
+#             ]
+#         intro_message = "A system is converged when the residuals are close to 0 within a tolerance. You generally want your residuals to decrease as computationally quickly as possible."
+#         outro_message = 'Converging a system means that all coupling and implicit interactions have been resolved. The best solver settings and what "good" solver convergence means are highly problem dependent.'
 
-        make_title_slide(self, title, contents_list, intro_message, outro_message, venn_types=["mda"])
+#         make_title_slide(self, title, contents_list, intro_message, outro_message, venn_types=["mda"])
 
 
-class ResidualCalc(MovingCameraScene):
-    def setup(self):
-        self.camera.background_color="#2d3c54"
-        myTemplate = TexTemplate()
-        myTemplate.add_to_preamble(r"\usepackage{physics}")
-        myTemplate.add_to_preamble(r"\usepackage{bm}")
-        myTemplate.add_to_preamble(r"\usepackage{amsmath}")
+# class ResidualCalc(MovingCameraScene):
+#     def setup(self):
+#         self.camera.background_color="#2d3c54"
+#         myTemplate = TexTemplate()
+#         myTemplate.add_to_preamble(r"\usepackage{physics}")
+#         myTemplate.add_to_preamble(r"\usepackage{bm}")
+#         myTemplate.add_to_preamble(r"\usepackage{amsmath}")
 
-        # Show residual calc
-        self.play(Write(MathTex(r"R(\vb*{\va{x}}) = \vb*0")))
-        self.wait()
-        clear(self)
-        self.wait()
+#         # Show residual calc
+#         self.play(Write(MathTex(r"R(\vb*{\va{x}}) = \vb*0")))
+#         self.wait()
+#         clear(self)
+#         self.wait()
 
-        # Show linear system
-        linear_system = MathTex(r"[\vb*A] \vb*{\va{x}} = \vb*{\va{b}}")
-        self.play(Write(linear_system))
-        self.wait()
+#         # Show linear system
+#         linear_system = MathTex(r"[\vb*A] \vb*{\va{x}} = \vb*{\va{b}}")
+#         self.play(Write(linear_system))
+#         self.wait()
 
-        linear_system_string = r"""
-            \[
-            \begin{bmatrix}
-            a_{11} & a_{12} & a_{13} & \dots & a_{1n} \\
-            a_{21} & a_{22} & a_{23} & \dots & a_{2n} \\
-            \dots  & \dots  & \dots  & \dots & \dots  \\
-            a_{n1} & a_{n2} & a_{n3} & \dots & a_{nn} 
-            \end{bmatrix}
-            \begin{bmatrix}
-            x_1 \\ x_2 \\ \dots \\ x_n 
-            \end{bmatrix}
-            =
-            \begin{bmatrix}
-            b_{1} \\ b_{2} \\ \dots \\ b_{n}
-            \end{bmatrix}
-            \]"""
-        self.play(Transform(linear_system, Tex(linear_system_string)))
-        self.wait()
+#         linear_system_string = r"""
+#             \[
+#             \begin{bmatrix}
+#             a_{11} & a_{12} & a_{13} & \dots & a_{1n} \\
+#             a_{21} & a_{22} & a_{23} & \dots & a_{2n} \\
+#             \dots  & \dots  & \dots  & \dots & \dots  \\
+#             a_{n1} & a_{n2} & a_{n3} & \dots & a_{nn} 
+#             \end{bmatrix}
+#             \begin{bmatrix}
+#             x_1 \\ x_2 \\ \dots \\ x_n 
+#             \end{bmatrix}
+#             =
+#             \begin{bmatrix}
+#             b_{1} \\ b_{2} \\ \dots \\ b_{n}
+#             \end{bmatrix}
+#             \]"""
+#         self.play(Transform(linear_system, Tex(linear_system_string)))
+#         self.wait()
 
-        # Show nonlinear system
-        nonlinear_system_string = r"""
-            \begin{alignat*}{4}
-            2x^2 & {}+{} &  xy & {}+{} & 3z^3 & {}={} & 10 \\
-                x & {}+{} &  y & {}+{} &  \sqrt{z} & {}={} &  6 \\
-                x^3 & {}+{} & 3yz & {}+{} & 2z & {}={} & 13
-            \end{alignat*}"""
-        self.play(Transform(linear_system, Tex(nonlinear_system_string)))
-        self.wait()
+#         # Show nonlinear system
+#         nonlinear_system_string = r"""
+#             \begin{alignat*}{4}
+#             2x^2 & {}+{} &  xy & {}+{} & 3z^3 & {}={} & 10 \\
+#                 x & {}+{} &  y & {}+{} &  \sqrt{z} & {}={} &  6 \\
+#                 x^3 & {}+{} & 3yz & {}+{} & 2z & {}={} & 13
+#             \end{alignat*}"""
+#         self.play(Transform(linear_system, Tex(nonlinear_system_string)))
+#         self.wait()
 
-        self.play(Transform(linear_system, MathTex(r"[\vb*A] \vb*{\va{x}} = \vb*{\va{b}}")))
-        self.wait()
+#         self.play(Transform(linear_system, MathTex(r"[\vb*A] \vb*{\va{x}} = \vb*{\va{b}}")))
+#         self.wait()
 
-        self.play(Transform(linear_system, MathTex(r"[\vb*A] \vb*{\va{x}} - \vb*{\va{b}} = \vb*0")))
-        self.wait()
+#         self.play(Transform(linear_system, MathTex(r"[\vb*A] \vb*{\va{x}} - \vb*{\va{b}} = \vb*0")))
+#         self.wait()
         
-        self.play(Transform(linear_system, MathTex(r"[\vb*A] \vb*{\va{x}} - \vb*{\va{b}} = \vb*0 = R(\vb*{\va{x}})")))
-        self.wait()
+#         self.play(Transform(linear_system, MathTex(r"[\vb*A] \vb*{\va{x}} - \vb*{\va{b}} = \vb*0 = R(\vb*{\va{x}})")))
+#         self.wait()
 
-        self.play(Transform(linear_system, MathTex(r"R(\vb*{\va{x}}) = \vb*0")))
-        self.wait()
+#         self.play(Transform(linear_system, MathTex(r"R(\vb*{\va{x}}) = \vb*0")))
+#         self.wait()
 
-        clear(self)
+#         clear(self)
 
 
 
@@ -163,7 +163,7 @@ class ShowSolverConvergence(MovingCameraScene):
             axis_config={"include_numbers": True, "exclude_origin_tick": False},
             y_axis_config={"scaling": LogBase(custom_labels=True)},
         )
-        labels = ax.get_axis_labels(x_label=r"\text{Solver iteration}", y_label="R(x)")
+        labels = ax.get_axis_labels(x_label=r"\text{Solver iteration}", y_label="||R(x)||")
         self.play(Create(ax), Create(labels))
         self.wait()
         line = DashedLine(ax.c2p(0., 1.e-9), ax.c2p(15., 1.e-9))

@@ -141,11 +141,7 @@ def make_title_slide(scene, title, contents_list, intro_message, outro_message, 
     scene.play(FadeOut(message_title))
 
 
-def plot_2d_function(function_to_plot, r_min=-4., r_max=4., font_size=24):
-    # objective function
-    def objective(x, y):
-        return (x**2 + y - 11)**2 + (x + y**2 -7)**2
-    
+def plot_2d_function(function_to_plot, r_min=-4., r_max=4., font_size=24):    
     # sample input range uniformly at 0.1 increments
     xaxis = np.arange(r_min, r_max, 0.01)
     yaxis = np.arange(r_min, r_max, 0.01)
@@ -191,7 +187,7 @@ def get_results(filename):
             results[key].append(case.outputs[key])
 
     for key in case.outputs.keys():
-        results[key] = np.array(results[key])
+        results[key] = np.squeeze(np.array(np.squeeze(results[key])))
 
     return results
 
@@ -236,6 +232,44 @@ def draw_results(scene, results, ax):
     scene.wait()
     
     scene.play(FadeOut(dot), FadeOut(lines))
+
+
+def draw_GA_results(scene, results, ax, pop_size=10):
+    data_array = np.vstack((results['x'][1:], results['y'][1:]))
+    try:
+        data_array = data_array.reshape((2, pop_size, -1), order='F')
+    except ValueError:
+        size = np.prod(data_array.shape)
+        remainder = size % (2*pop_size)
+        data_array = data_array[:, :(-remainder-2)]
+        data_array = data_array.reshape((2, pop_size, -1), order='F')
+
+    dots = VGroup()
+    x_points = []
+    y_points = []
+    subarray = data_array[:, :, 0].T
+    for idx, row in enumerate(subarray):
+        x, y = row[0], row[1]
+        x_points.append(ValueTracker(x))
+        y_points.append(ValueTracker(y))
+        dot = plot_point_animation(x_points[idx], y_points[idx], ax)
+        dots.add(dot)
+    scene.play(FadeIn(dots))
+    scene.wait()
+
+    num_gens = data_array.shape[2]
+
+    for i_gen in range(num_gens):
+        anims = []
+        subarray = data_array[:, :, i_gen].T
+        for idx, row in enumerate(subarray):
+            x, y = row[0], row[1]
+            anims.append(x_points[idx].animate.set_value(x))
+            anims.append(y_points[idx].animate.set_value(y))
+        scene.play(*anims, run_time=.25, rate_func=linear)
+        scene.wait(0.25)
+
+    scene.wait()
 
 def clear(scene):
     scene.play(

@@ -9,7 +9,8 @@ class TitleSlide(MovingCameraScene):
 
         title = r"Debugging your optimizations"
         contents_list = [
-            "We're debugging these optimizations!"
+            "Context",
+            "Checklist",
             ]
         intro_message = r"""Optimization of complicated multidisciplinary systems is not easy. By following this systematic debugging procedure you can maximize your chances of success."""
         outro_message = "An inordinate amount of my time has been spent debugging optimizations. I hope this checklist helps save you some time!"
@@ -54,13 +55,13 @@ class OptChecklist(MovingCameraScene):
         checklist = r"""\setstretch{1.2}
 \raggedright{
 0. Understand your model inside and out\\
-1. Check your optimization problem formulation\\
-2. Try a simpler optimization problem\\
-3. Start from a feasible point in the design space\\
-4. Use driver debug printing\\
-5. Plot variable history vs optimizer iterations\\
-6. Set solver tolerances smaller than optimization tolerances\\
-7. Exhaustively check your derivatives\\
+1. Exhaustively check your derivatives\\
+2. Check your optimization problem formulation\\
+3. Try a simpler optimization problem\\
+4. Start from a feasible point in the design space\\
+5. Use driver debug printing\\
+6. Plot variable history vs optimizer iterations\\
+7. Set solver tolerances smaller than optimization tolerances\\
 8. Scale your problem\\
 9. Manually investigate and visualize the design space\\
 10. Try a different optimizer\\
@@ -71,13 +72,13 @@ class OptChecklist(MovingCameraScene):
 
         checklist = [
             "0. Understand your model inside and out",
-            "1. Check your optimization problem formulation",
-            "2. Try a simpler optimization problem",
-            "3. Start from a feasible point in the design space",
-            "4. Use driver debug printing",
-            "5. Plot variable history vs optimizer iterations",
-            "6. Set solver tolerances smaller than optimization tolerances",
-            "7. Exhaustively check your derivatives",
+            "1. Exhaustively check your derivatives",
+            "2. Check your optimization problem formulation",
+            "3. Try a simpler optimization problem",
+            "4. Start from a feasible point in the design space",
+            "5. Use driver debug printing",
+            "6. Plot variable history vs optimizer iterations",
+            "7. Set solver tolerances smaller than optimization tolerances",
             "8. Scale your problem",
             '9. Manually investigate and visualize the design space',
             '10. Try a different optimizer',

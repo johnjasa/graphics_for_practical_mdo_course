@@ -153,7 +153,7 @@ from manim_helper_functions import *
 #         self.clear()
 
 
-class SolverChecklist(MovingCameraScene):
+class SolverChecklistNew(MovingCameraScene):
     def construct(self):
         self.camera.background_color="#2d3c54"
         myTemplate = TexTemplate()

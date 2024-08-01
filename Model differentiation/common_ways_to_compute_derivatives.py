@@ -143,52 +143,52 @@ from manim_helper_functions import *
 
 
 
-# class CSExplanation(MovingCameraScene):
-#     def construct(self):
-#         self.camera.background_color="#2d3c54"
-#         self.camera.frame.save_state()
-
-#         cs = MathTex(r"\frac{\partial f}{\partial x} = \frac{\text{Im}(f(x + ih))}{ih}")
-#         self.play(Write(cs))
-#         self.wait()
-
-#         clear(self)
-
-#         rect = Rectangle(height=8., width=1, z_index=999, fill_color="#2d3c54", color="#2d3c54", fill_opacity=1).move_to((4.1935, 1., 0))
-#         self.add(rect)
-
-#         image = SVGMobject("cs_stepsize", unpack_groups=False, stroke_width=3)
-#         image.scale(3.5)
-#         caption = Tex("Fig. 6.9 from Engineering Design Optimization by Martins and Ning").scale(0.7).move_to((0, -3.75, 0))
-#         self.play(Write(image), Write(caption))
-#         self.wait(2)
-
-#         self.play(FadeOut(image, caption))
-
-
-class CSAdvantages(MovingCameraScene):
+class CSExplanation(MovingCameraScene):
     def construct(self):
         self.camera.background_color="#2d3c54"
         self.camera.frame.save_state()
 
-        text1 = Tex(r"""\raggedright{
-            \textbf{Advantages of CS:}\\
-            As accurate as your model\\
-        }""")
-        text2 = Tex(r"""\raggedright{
-            \textbf{Disadvantages:}\\
-            Computationally expensive\\
-            Requires source-code modification\\
-            Model must be complex-safe\\
-        }""")
-
-        self.play(Write(text1.shift(2*UP)))
-        self.wait()
-
-        self.play(Write(text2.align_to(text1, LEFT).shift(DOWN)))
+        cs = MathTex(r"\frac{\partial f}{\partial x} = \frac{\text{Im}(f(x + ih))}{h}")
+        self.play(Write(cs))
         self.wait()
 
         clear(self)
+
+        rect = Rectangle(height=8., width=1, z_index=999, fill_color="#2d3c54", color="#2d3c54", fill_opacity=1).move_to((4.1935, 1., 0))
+        self.add(rect)
+
+        image = SVGMobject("cs_stepsize", unpack_groups=False, stroke_width=3)
+        image.scale(3.5)
+        caption = Tex("Fig. 6.9 from Engineering Design Optimization by Martins and Ning").scale(0.7).move_to((0, -3.75, 0))
+        self.play(Write(image), Write(caption))
+        self.wait(2)
+
+        self.play(FadeOut(image, caption))
+
+
+# class CSAdvantages(MovingCameraScene):
+#     def construct(self):
+#         self.camera.background_color="#2d3c54"
+#         self.camera.frame.save_state()
+
+#         text1 = Tex(r"""\raggedright{
+#             \textbf{Advantages of CS:}\\
+#             As accurate as your model\\
+#         }""")
+#         text2 = Tex(r"""\raggedright{
+#             \textbf{Disadvantages:}\\
+#             Computationally expensive\\
+#             Requires source-code modification\\
+#             Model must be complex-safe\\
+#         }""")
+
+#         self.play(Write(text1.shift(2*UP)))
+#         self.wait()
+
+#         self.play(Write(text2.align_to(text1, LEFT).shift(DOWN)))
+#         self.wait()
+
+#         clear(self)
 
 
 # class AnalyticDerivs(MovingCameraScene):
@@ -247,30 +247,30 @@ class CSAdvantages(MovingCameraScene):
 #         clear(self)
 
 
-class ADAdvantages(MovingCameraScene):
-    def construct(self):
-        self.camera.background_color="#2d3c54"
-        self.camera.frame.save_state()
+# class ADAdvantages(MovingCameraScene):
+#     def construct(self):
+#         self.camera.background_color="#2d3c54"
+#         self.camera.frame.save_state()
 
-        text1 = Tex(r"""\raggedright{
-            \textbf{Advantages of AD:}\\
-            Accurate\\
-            Efficient (depending on implementation)\\
-            Potentially less developer cost
-        }""")
-        text2 = Tex(r"""\raggedright{
-            \textbf{Disadvantages:}\\
-            Requires some code reworking\\
-            Might be computationally intensive or inefficient\\
-        }""")
+#         text1 = Tex(r"""\raggedright{
+#             \textbf{Advantages of AD:}\\
+#             Accurate\\
+#             Efficient (depending on implementation)\\
+#             Potentially less developer cost
+#         }""")
+#         text2 = Tex(r"""\raggedright{
+#             \textbf{Disadvantages:}\\
+#             Requires some code reworking\\
+#             Might be computationally intensive or inefficient\\
+#         }""")
 
-        self.play(Write(text1.shift(2*UP).shift(LEFT)))
-        self.wait()
+#         self.play(Write(text1.shift(2*UP).shift(LEFT)))
+#         self.wait()
 
-        self.play(Write(text2.align_to(text1, LEFT).shift(DOWN)))
-        self.wait()
+#         self.play(Write(text2.align_to(text1, LEFT).shift(DOWN)))
+#         self.wait()
 
-        clear(self)
+#         clear(self)
 
 
 # class ADBasics(MovingCameraScene):

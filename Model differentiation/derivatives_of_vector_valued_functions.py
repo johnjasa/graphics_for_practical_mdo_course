@@ -3,22 +3,19 @@ import numpy as np
 from manim_helper_functions import *
 
 
-# class TitleSlide(MovingCameraScene):
-#     def construct(self):
-#         self.camera.background_color="#2d3c54"
+class TitleSlide(MovingCameraScene):
+    def construct(self):
+        self.camera.background_color="#2d3c54"
 
-#         title = r"Derivatives of vector valued functions"
-#         contents_list = [
-#             "What are vector valued functions?",
-#             "Brief math theory of derivative arrays (Jacobians)",
-#             "Example case in OpenMDAO",
-#             "Sparsity in the Jacobian can be exploited",
-#             "Derivative coloring can also help",
-#             ]
-#         intro_message = "Derivatives of a scalar with respect to a scalar might be relatively straightforward. Derivatives of vector valued functions are not impossibly difficult."
-#         outro_message = "Obtaining derivatives of vector valued functions requires thought, planning, and a purposeful implementation. You can use intelligent matrix and array operations to facilitate the process."
+        title = r"Derivatives of vector-valued functions (computing Jacobians)"
+        contents_list = [
+            "What are vector-valued functions?",
+            "Brief math theory of derivative arrays (Jacobians)",
+            ]
+        intro_message = "Derivatives of a scalar with respect to a scalar might be relatively straightforward. Derivatives of vector-valued functions are not impossibly difficult."
+        outro_message = "Obtaining Jacobian information efficiently is the key to performing gradient-based optimization."
 
-#         make_title_slide(self, title, contents_list, intro_message, outro_message, venn_types=["diff"])
+        make_title_slide(self, title, contents_list, intro_message, outro_message, venn_types=["diff"])
 
 class ArrowsBox(MovingCameraScene):
     def construct(self):
@@ -131,62 +128,62 @@ class ArrowsBox(MovingCameraScene):
 #         self.play(Create(text3))
 #         self.wait()
 
-class Math(MovingCameraScene):
-    def construct(self):
-        self.camera.background_color="#2d3c54"
+# class Math(MovingCameraScene):
+#     def construct(self):
+#         self.camera.background_color="#2d3c54"
 
-        math = r"""
-        J_f=\frac{\partial f}{\partial x}=\left[\begin{array}{c}
-\nabla f_1^\intercal \\
-\vdots \\
-\nabla f_{n_f}^\intercal
-\end{array}\right]=\underbrace{\left[\begin{array}{ccc}
-\frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_{n_{x}}} \\
-\vdots & \ddots & \vdots \\
-\frac{\partial f_{n_f}}{\partial x_1} & \cdots & \frac{\partial f_{n_f}}{\partial x_{n_{x}}}
-\end{array}\right]}_{\left(n_f \times n_{x}\right)}"""
+#         math = r"""
+#         J_f=\frac{\partial f}{\partial x}=\left[\begin{array}{c}
+# \nabla f_1^\intercal \\
+# \vdots \\
+# \nabla f_{n_f}^\intercal
+# \end{array}\right]=\underbrace{\left[\begin{array}{ccc}
+# \frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_{n_{x}}} \\
+# \vdots & \ddots & \vdots \\
+# \frac{\partial f_{n_f}}{\partial x_1} & \cdots & \frac{\partial f_{n_f}}{\partial x_{n_{x}}}
+# \end{array}\right]}_{\left(n_f \times n_{x}\right)}"""
 
-        math_tex = MathTex(math)
-        self.play(Write(math_tex))
-        self.wait()
+#         math_tex = MathTex(math)
+#         self.play(Write(math_tex))
+#         self.wait()
         
-        self.play(math_tex.animate.move_to((-3, 0, 0)).scale(0.6))
-        self.wait()
+#         self.play(math_tex.animate.move_to((-3, 0, 0)).scale(0.6))
+#         self.wait()
 
-        textbox = VGroup() # create a VGroup
-        box = Rectangle(  # create a box
-            height=3, width=2, fill_color=WHITE, 
-            fill_opacity=0.5, stroke_color=WHITE
-        )
-        text = Tex("Model", font_size=44).move_to(box.get_center()) # create text
-        textbox.add(box, text)
-        textbox.shift(3.5*RIGHT)
-        self.play(FadeIn(textbox))
+#         textbox = VGroup() # create a VGroup
+#         box = Rectangle(  # create a box
+#             height=3, width=2, fill_color=WHITE, 
+#             fill_opacity=0.5, stroke_color=WHITE
+#         )
+#         text = Tex("Model", font_size=44).move_to(box.get_center()) # create text
+#         textbox.add(box, text)
+#         textbox.shift(3.5*RIGHT)
+#         self.play(FadeIn(textbox))
 
         
-        left_arrows = VGroup()
-        for i in range(4):
-            left_arrows.add(Arrow([0.5, i-1.5, 0], [textbox.get_edge_center(LEFT)[0], i-1.5, 0]))
-        self.play(Create(left_arrows))
-        self.wait()
+#         left_arrows = VGroup()
+#         for i in range(4):
+#             left_arrows.add(Arrow([0.5, i-1.5, 0], [textbox.get_edge_center(LEFT)[0], i-1.5, 0]))
+#         self.play(Create(left_arrows))
+#         self.wait()
 
-        right_arrows = VGroup()
-        for i in range(2):
-            right_arrows.add(Arrow([textbox.get_edge_center(RIGHT)[0], i-0.5, 0], [6.5, i-0.5, 0]))
-        self.play(Create(right_arrows))
-        self.wait()
+#         right_arrows = VGroup()
+#         for i in range(2):
+#             right_arrows.add(Arrow([textbox.get_edge_center(RIGHT)[0], i-0.5, 0], [6.5, i-0.5, 0]))
+#         self.play(Create(right_arrows))
+#         self.wait()
 
-        new_math = r"""
-        J_f=\frac{\partial f}{\partial x}=\left[\begin{array}{c}
-\nabla f_1^\intercal \\
-\vdots \\
-\nabla f_{n_f}^\intercal
-\end{array}\right]=\underbrace{\left[\begin{array}{cccc}
-\frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \frac{\partial f_1}{\partial x_3} & \frac{\partial f_1}{\partial x_4} \\ \\
-\frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \frac{\partial f_2}{\partial x_3} & \frac{\partial f_2}{\partial x_4} \\
-\end{array}\right]}_{\left(n_2 \times n_4\right)}"""
+#         new_math = r"""
+#         J_f=\frac{\partial f}{\partial x}=\left[\begin{array}{c}
+# \nabla f_1^\intercal \\
+# \vdots \\
+# \nabla f_{n_f}^\intercal
+# \end{array}\right]=\underbrace{\left[\begin{array}{cccc}
+# \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \frac{\partial f_1}{\partial x_3} & \frac{\partial f_1}{\partial x_4} \\ \\
+# \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \frac{\partial f_2}{\partial x_3} & \frac{\partial f_2}{\partial x_4} \\
+# \end{array}\right]}_{\left(n_2 \times n_4\right)}"""
 
-        self.play(Transform(math_tex, MathTex(new_math, font_size=30).shift(3.5*LEFT)))
-        self.wait()
+#         self.play(Transform(math_tex, MathTex(new_math, font_size=30).shift(3.5*LEFT)))
+#         self.wait()
 
-        self.clear()
+#         self.clear()

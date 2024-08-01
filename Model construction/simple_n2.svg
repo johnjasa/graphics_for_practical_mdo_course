@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svgId"
+   width="863.375"
+   height="578.63538"
+   version="1.1"
+   sodipodi:docname="simple_n2.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata154">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="3840"
+     inkscape:window-height="2066"
+     id="namedview152"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="1.6888571"
+     inkscape:cx="223.47986"
+     inkscape:cy="184.86028"
+     inkscape:window-x="3829"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svgId" />
+  <style
+     title="svgStyle"
+     id="style2">rect {
+    stroke: #eee;
+}
+
+#tree &gt; g.output &gt; rect {
+    fill: #9FC4C6;
+    fill-opacity: .8;
+}
+
+#tree &gt; g.output_implicit &gt; rect {
+    fill: #C7D06D;
+    fill-opacity: .8;
+}
+
+#tree &gt; g.input &gt; rect {
+    fill: #30B0AD;
+    fill-opacity: .8;
+}
+
+#tree &gt; g.unconnected_input &gt; rect {
+    fill: #F42F0D;
+    fill-opacity: .8;
+}
+
+#tree &gt; g.subsystem &gt; rect {
+    cursor: pointer;
+    fill-opacity: .8;
+    fill: #6092B5;
+}
+
+#tree &gt; g.component &gt; rect {
+    cursor: pointer;
+    fill-opacity: .8;
+    fill: #02BFFF;
+}
+
+#tree &gt; g.input_group &gt; rect {
+    cursor: pointer;
+    fill-opacity: .8;
+    fill: Orchid;
+}
+
+#tree &gt; g.output_group &gt; rect {
+    cursor: pointer;
+    fill-opacity: .8;
+    fill: #888;
+}
+
+#tree &gt; g.minimized &gt; rect {
+    cursor: pointer;
+    fill-opacity: .8;
+    fill: #555555;
+}
+
+#tree &gt; g.minimized &gt; text {
+    fill: white;
+}
+
+#tree &gt; g.autoivc_input &gt; rect {
+    cursor: pointer;
+    fill-opacity: .8;
+    fill: #ff7000;
+}
+
+text {
+}
+
+#svgId g.partition_group &gt; text {
+    text-anchor: end;
+    pointer-events: none;
+    font-family: helvetica, sans-serif;
+    font-size: 24px;
+}
+
+text.offgridLabel {
+    font-family: helvetica, sans-serif;
+    font-size: 24px;
+}
+
+#svgId g.solver_group &gt; text {
+    text-anchor: end;
+    pointer-events: none;
+    font-family: helvetica, sans-serif;
+    font-size: 24px;
+}
+
+g.component_box &gt; rect {
+    stroke: #555;
+    stroke-width: 2;
+    fill: none;
+}
+
+.bordR1, .bordR2, .bordR3, .bordR4, .ssMid, .grpMid, .svMid, .vsMid, .vMid, .sgrpMid, .grpsMid {
+    stroke: none;
+    stroke-width: 0;
+    fill-opacity: 1;
+}
+
+[class^=n2_hover_elements] {
+    pointer-events: none;
+}
+
+.background {
+    fill: #eee;
+}
+
+.horiz_line, .vert_line {
+    stroke: white;
+}
+
+g.solver_none &gt; rect {
+    fill: #8dd3c7;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_ln_lnbj &gt; rect {
+    fill: #ffffb3;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_nl_nlbj &gt; rect {
+    fill: #ffffb3;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_ln_scipy &gt; rect {
+    fill: #bebada;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_ln_runonce &gt; rect {
+    fill: #fb8072;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_nl_runonce &gt; rect {
+    fill: #fb8072;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_ln_direct &gt; rect {
+    fill: #80b1d3;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_ln_petsckrylov &gt; rect {
+    fill: #fdb462;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_ln_lnbgs &gt; rect {
+    fill: #b3de69;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_nl_nlbgs &gt; rect {
+    fill: #b3de69;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_ln_user &gt; rect {
+    fill: #fccde5;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_nl_newton &gt; rect {
+    fill: #d9d9d9;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_broyden &gt; rect {
+    fill: #bc80bd;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_solve_linear &gt; rect {
+    fill: #ccebc5;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_solve_nonlinear &gt; rect {
+    fill: #ccebc5;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+g.solver_other &gt; rect {
+    fill: #ffed6f;
+    cursor: pointer;
+    fill-opacity: .8;
+}
+
+</style>
+  <defs
+     id="defs19">
+    <marker
+       id="arrow"
+       viewBox="0 -5 10 10"
+       refX="5"
+       refY="0"
+       markerWidth="7.7018051"
+       markerHeight="7.7018051"
+       orient="auto">
+      <path
+         d="M 0,-5 10,0 0,5 V -5"
+         class="arrowHead"
+         id="path4"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <clipPath
+       id="partitionTreeClip">
+      <rect
+         id="tree-clip-rect"
+         x="0"
+         y="0"
+         width="1200"
+         height="577.63538"
+         style="stroke:#eeeeee" />
+    </clipPath>
+    <clipPath
+       id="n2MatrixClip">
+      <rect
+         id="matrix-clip-rect"
+         x="-1"
+         y="-1"
+         width="579.63538"
+         height="579.63538"
+         style="stroke:#eeeeee" />
+    </clipPath>
+    <clipPath
+       id="solverTreeClip">
+      <rect
+         id="solver-clip-rect"
+         x="0"
+         y="0"
+         width="1200"
+         height="577.63538"
+         style="stroke:#eeeeee" />
+    </clipPath>
+    <g
+       id="matrix-connector-arrow"
+       width="10"
+       height="10">
+      <path
+         d="M 0,3 H 2 Q 7,3 7,8 H 8 L 5,10 2,8 H 3 Q 3,7 2,7 H 0 Z"
+         id="path13"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="matrix-connector-square"
+       width="10"
+       height="10">
+      <rect
+         x="2"
+         y="2"
+         width="6"
+         height="6"
+         id="rect16"
+         style="stroke:#eeeeee" />
+    </g>
+  </defs>
+  <g
+     id="tree"
+     clip-path="url(#partitionTreeClip)"
+     height="577.635383605957"
+     width="270.23961639404297"
+     transform="translate(0,0.5)">
+    <g
+       class="partition_group subsystem"
+       id="g24">
+      <rect
+         width="81.208359"
+         height="577.63538"
+         id=""
+         rx="12"
+         ry="12"
+         x="0"
+         y="0"
+         style="fill:#6092b5;fill-opacity:0.8;stroke:#eeeeee" />
+      <text
+         dy="0.34999999em"
+         transform="translate(73.208359,288.81769)"
+         style="font-size:24px;font-family:helvetica, sans-serif;text-anchor:end;opacity:1"
+         id="text22">model</text>
+    </g>
+    <g
+       class="partition_group subsystem"
+       transform="translate(81.208359)"
+       id="g29">
+      <rect
+         width="95.854172"
+         height="385.09027"
+         id="Group1"
+         rx="12"
+         ry="12"
+         x="0"
+         y="0"
+         style="fill:#6092b5;fill-opacity:0.8;stroke:#eeeeee" />
+      <text
+         dy="0.34999999em"
+         transform="translate(87.854172,192.54514)"
+         style="font-size:24px;font-family:helvetica, sans-serif;text-anchor:end;opacity:1"
+         id="text27">Group1</text>
+    </g>
+    <g
+       class="partition_group component"
+       transform="translate(177.06253)"
+       id="g34">
+      <rect
+         width="93.177086"
+         height="192.54514"
+         id="Group1_Comp1"
+         rx="12"
+         ry="12"
+         x="0"
+         y="0"
+         style="fill:#02bfff;fill-opacity:0.8;stroke:#eeeeee" />
+      <text
+         dy="0.34999999em"
+         transform="translate(85.177086,96.272568)"
+         style="font-size:24px;font-family:helvetica, sans-serif;text-anchor:end;opacity:1"
+         id="text32">Comp1</text>
+    </g>
+    <g
+       class="partition_group component"
+       transform="translate(177.06253,192.54514)"
+       id="g39">
+      <rect
+         width="93.177086"
+         height="192.54514"
+         id="Group1_Comp2"
+         rx="12"
+         ry="12"
+         x="0"
+         y="0"
+         style="fill:#02bfff;fill-opacity:0.8;stroke:#eeeeee" />
+      <text
+         dy="0.34999999em"
+         transform="translate(85.177086,96.272568)"
+         style="font-size:24px;font-family:helvetica, sans-serif;text-anchor:end;opacity:1"
+         id="text37">Comp2</text>
+    </g>
+    <g
+       class="partition_group component"
+       transform="translate(81.208359,385.09027)"
+       id="g44">
+      <rect
+         width="189.03125"
+         height="192.54514"
+         id="Comp3"
+         rx="12"
+         ry="12"
+         x="0"
+         y="0"
+         style="fill:#02bfff;fill-opacity:0.8;stroke:#eeeeee" />
+      <text
+         dy="0.34999999em"
+         transform="translate(181.03125,96.272568)"
+         style="font-size:24px;font-family:helvetica, sans-serif;text-anchor:end;opacity:1"
+         id="text42">Comp3</text>
+    </g>
+  </g>
+  <g
+     id="highlight-bar"
+     height="577.635383605957"
+     width="8"
+     transform="translate(270.23962,0.5)" />
+  <g
+     id="n2outer"
+     height="607.635383605957"
+     width="607.635383605957"
+     transform="translate(270.23962,-14.5)">
+    <g
+       id="n2inner"
+       height="577.635383605957"
+       width="577.635383605957"
+       transform="translate(15,15)">
+      <rect
+         id="backgroundRect"
+         class="background"
+         width="577.63538"
+         height="577.63538"
+         x="0"
+         y="0"
+         style="fill:#eeeeee;stroke:#eeeeee" />
+      <g
+         id="n2background"
+         clip-path="url(#n2MatrixClip)" />
+      <g
+         id="n2gridlines"
+         clip-path="url(#n2MatrixClip)">
+        <g
+           class="horiz_line"
+           id="g83"
+           style="stroke:#ffffff">
+          <line
+             x2="577.63538"
+             id="line81"
+             x1="0"
+             y1="0"
+             y2="0" />
+        </g>
+        <g
+           class="horiz_line"
+           transform="translate(0,192.54514)"
+           id="g87"
+           style="stroke:#ffffff">
+          <line
+             x2="577.63538"
+             id="line85"
+             x1="0"
+             y1="0"
+             y2="0" />
+        </g>
+        <g
+           class="horiz_line"
+           transform="translate(0,385.09027)"
+           id="g91"
+           style="stroke:#ffffff">
+          <line
+             x2="577.63538"
+             id="line89"
+             x1="0"
+             y1="0"
+             y2="0" />
+        </g>
+        <g
+           class="vert_line"
+           transform="rotate(-90)"
+           id="g95"
+           style="stroke:#ffffff">
+          <line
+             x1="-577.63538"
+             id="line93"
+             y1="0"
+             x2="0"
+             y2="0" />
+        </g>
+        <g
+           class="vert_line"
+           transform="rotate(-90,96.272568,-96.272568)"
+           id="g99"
+           style="stroke:#ffffff">
+          <line
+             x1="-577.63538"
+             id="line97"
+             y1="0"
+             x2="0"
+             y2="0" />
+        </g>
+        <g
+           class="vert_line"
+           transform="rotate(-90,192.54514,-192.54514)"
+           id="g103"
+           style="stroke:#ffffff">
+          <line
+             x1="-577.63538"
+             id="line101"
+             y1="0"
+             x2="0"
+             y2="0" />
+        </g>
+      </g>
+      <g
+         id="n2elements"
+         clip-path="url(#n2MatrixClip)">
+        <g
+           class="n2cell"
+           transform="translate(96.272568,96.272568)"
+           id="g115">
+          <rect
+             class="bordR1"
+             x="-96.272568"
+             y="-96.272568"
+             width="192.54514"
+             height="19.254513"
+             style="fill:#9fc4c6;fill-opacity:1;stroke:none;stroke-width:0"
+             id="rect106" />
+          <rect
+             class="bordR2"
+             x="-96.272568"
+             y="-96.272568"
+             width="19.254513"
+             height="192.54514"
+             style="fill:#9fc4c6;fill-opacity:1;stroke:none;stroke-width:0"
+             id="rect108" />
+          <rect
+             class="bordR3"
+             x="77.018051"
+             y="-96.272568"
+             width="19.254513"
+             height="192.54514"
+             style="fill:#9fc4c6;fill-opacity:1;stroke:none;stroke-width:0"
+             id="rect110" />
+          <rect
+             class="bordR4"
+             x="-96.272568"
+             y="77.018051"
+             width="192.54514"
+             height="19.254513"
+             style="fill:#9fc4c6;fill-opacity:1;stroke:none;stroke-width:0"
+             id="rect112" />
+          <rect
+             class="gMid"
+             id="cellShape_node_2"
+             x="-57.763538"
+             y="-57.763538"
+             width="115.52708"
+             height="115.52708"
+             style="fill:#9fc4c6;stroke:#eeeeee" />
+        </g>
+        <g
+           class="n2cell"
+           transform="translate(288.81769,288.81769)"
+           id="g126">
+          <rect
+             class="bordR1"
+             x="-96.272568"
+             y="-96.272568"
+             width="192.54514"
+             height="19.254513"
+             style="fill:#9fc4c6;fill-opacity:1;stroke:none;stroke-width:0"
+             id="rect117" />
+          <rect
+             class="bordR2"
+             x="-96.272568"
+             y="-96.272568"
+             width="19.254513"
+             height="192.54514"
+             style="fill:#9fc4c6;fill-opacity:1;stroke:none;stroke-width:0"
+             id="rect119" />
+          <rect
+             class="bordR3"
+             x="77.018051"
+             y="-96.272568"
+             width="19.254513"
+             height="192.54514"
+             style="fill:#9fc4c6;fill-opacity:1;stroke:none;stroke-width:0"
+             id="rect121" />
+          <rect
+             class="bordR4"
+             x="-96.272568"
+             y="77.018051"
+             width="192.54514"
+             height="19.254513"
+             style="fill:#9fc4c6;fill-opacity:1;stroke:none;stroke-width:0"
+             id="rect123" />
+          <rect
+             class="gMid"
+             id="cellShape_node_3"
+             x="-57.763538"
+             y="-57.763538"
+             width="115.52708"
+             height="115.52708"
+             style="fill:#9fc4c6;stroke:#eeeeee" />
+        </g>
+        <g
+           class="n2cell"
+           transform="translate(481.36282,481.36282)"
+           id="g137">
+          <rect
+             class="bordR1"
+             x="-96.272568"
+             y="-96.272568"
+             width="192.54514"
+             height="19.254513"
+             style="fill:#9fc4c6;fill-opacity:1;stroke:none;stroke-width:0"
+             id="rect128" />
+          <rect
+             class="bordR2"
+             x="-96.272568"
+             y="-96.272568"
+             width="19.254513"
+             height="192.54514"
+             style="fill:#9fc4c6;fill-opacity:1;stroke:none;stroke-width:0"
+             id="rect130" />
+          <rect
+             class="bordR3"
+             x="77.018051"
+             y="-96.272568"
+             width="19.254513"
+             height="192.54514"
+             style="fill:#9fc4c6;fill-opacity:1;stroke:none;stroke-width:0"
+             id="rect132" />
+          <rect
+             class="bordR4"
+             x="-96.272568"
+             y="77.018051"
+             width="192.54514"
+             height="19.254513"
+             style="fill:#9fc4c6;fill-opacity:1;stroke:none;stroke-width:0"
+             id="rect134" />
+          <rect
+             class="gMid"
+             id="cellShape_node_4"
+             x="-57.763538"
+             y="-57.763538"
+             width="115.52708"
+             height="115.52708"
+             style="fill:#9fc4c6;stroke:#eeeeee" />
+        </g>
+      </g>
+      <g
+         id="n2componentBoxes"
+         clip-path="url(#n2MatrixClip)" />
+      <g
+         id="n2arrows" />
+    </g>
+    <g
+       id="n2top"
+       class="offgridLabel"
+       transform="translate(15)"
+       width="1222.6499999999999"
+       height="13" />
+    <g
+       id="n2left"
+       class="offgridLabel" />
+    <g
+       id="n2right"
+       class="offgridLabel" />
+    <g
+       id="n2bottom"
+       class="offgridLabel"
+       transform="translate(0,1222.65)"
+       width="1252.6499999999999"
+       height="13" />
+  </g>
+</svg>
